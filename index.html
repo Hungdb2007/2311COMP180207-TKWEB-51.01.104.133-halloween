@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Halloween | Đêm Hội Ma Quái</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Creepster (Font ma quái) & Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Markdown Parser for AI response -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'horror': ['"Creepster"', 'cursive'],
+                        'sans': ['"Roboto"', 'sans-serif'],
+                    },
+                    colors: {
+                        'pumpkin': '#FF7518',
+                        'purple-dark': '#2E004F',
+                        'night': '#0a0a0a',
+                        'slime': '#76FF03',
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            background-image: radial-gradient(circle at 50% 50%, #1a0b2e 0%, #000000 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Hiệu ứng sương mù */
+        .fog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog1.png') repeat-x;
+            background-size: contain;
+            animation: fogAnim 60s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        @keyframes fogAnim {
+            0% { background-position: 0 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        /* Con trỏ chuột tùy chỉnh */
+        body {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" fill="%23FF7518"><path d="M12,2L15,8L21,9L17,14L18,20L12,17L6,20L7,14L3,9L9,8Z"/></svg>'), auto;
+        }
+
+        .text-shadow-horror {
+            text-shadow: 2px 2px 0px #2E004F, 4px 4px 0px #FF7518;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 0 20px rgba(255, 117, 24, 0.6);
+            border-color: #FF7518;
+        }
+
+        /* Nút công tắc đèn */
+        .light-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        /* Loading Spinner for AI */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #FF7518;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="transition-colors duration-700">
+
+    <!-- Lớp sương mù nền -->
+    <div class="fog"></div>
+
+    <!-- Công tắc tắt/bật đèn -->
+    <div class="light-switch">
+        <button onclick="toggleLights()" class="bg-gray-800 hover:bg-gray-700 text-yellow-400 font-bold py-2 px-4 rounded-full border-2 border-yellow-600 shadow-lg transition transform hover:scale-110">
+            <i class="fa-solid fa-lightbulb"></i> <span id="btnText">Tắt Đèn</span>
+        </button>
+    </div>
+
+    <!-- Header -->
+    <nav class="container mx-auto p-6 flex justify-between items-center relative z-10">
+        <a href="#" class="text-4xl font-horror text-pumpkin tracking-widest hover:text-white transition drop-shadow-[0_0_10px_rgba(255,117,24,0.8)]">
+            <i class="fa-solid fa-ghost mr-2 animate-bounce"></i>SPOOKY NIGHT
+        </a>
+        <ul class="hidden md:flex space-x-8 text-lg font-bold">
+            <li><a href="#home" class="hover:text-pumpkin transition">Trang Chủ</a></li>
+            <li><a href="#story" class="hover:text-purple-400 transition">Kể Chuyện Ma ✨</a></li>
+            <li><a href="#events" class="hover:text-purple-400 transition">Sự Kiện</a></li>
+            <li><a href="#gallery" class="hover:text-slime transition">Thư Viện Ma</a></li>
+            <li><a href="#contact" class="hover:text-red-500 transition">Gửi Lời Nhắn</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="container mx-auto flex flex-col-reverse md:flex-row items-center py-12 md:py-24 relative z-10">
+        <div class="md:w-1/2 text-center md:text-left px-4">
+            <h2 class="text-slime font-bold text-xl mb-2 tracking-widest uppercase animate-pulse">31 Tháng 10 - Đêm Kinh Hoàng</h2>
+            <h1 class="text-6xl md:text-8xl font-horror mb-6 text-white text-shadow-horror leading-tight">
+                Trick or <br> <span class="text-pumpkin">Treat?</span>
+            </h1>
+            <p class="text-gray-300 text-xl mb-8 leading-relaxed max-w-lg mx-auto md:mx-0">
+                Chào mừng bạn đến với bữa tiệc Halloween lớn nhất năm. Hãy chuẩn bị trang phục ma quái nhất và tham gia cùng chúng tôi nếu bạn dám!
+            </p>
+            <div class="space-x-4">
+                <button class="bg-pumpkin text-night font-bold py-4 px-8 rounded-full hover:bg-white hover:text-pumpkin transition duration-300 shadow-[0_0_15px_#FF7518] transform hover:scale-105">
+                    Tham Gia Ngay
+                </button>
+                <button class="border-2 border-purple-500 text-purple-400 font-bold py-4 px-8 rounded-full hover:bg-purple-900/50 transition duration-300">
+                    Xem Trailer <i class="fa-solid fa-play ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="md:w-1/2 flex justify-center relative mb-10 md:mb-0">
+            <!-- Hình ảnh Hero: Bí ngô và Ma -->
+            <div class="relative w-80 h-80 md:w-[500px] md:h-[500px]">
+                <!-- Vòng tròn tỏa sáng phía sau -->
+                <div class="absolute inset-0 bg-pumpkin/20 rounded-full blur-3xl animate-pulse-slow"></div>
+                
+                <svg class="w-full h-full animate-float drop-shadow-2xl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Bí ngô -->
+                    <circle cx="100" cy="110" r="70" fill="#FF7518" />
+                    <ellipse cx="70" cy="110" rx="30" ry="70" fill="#E65100" />
+                    <ellipse cx="130" cy="110" rx="30" ry="70" fill="#E65100" />
+                    <rect x="90" y="20" width="20" height="30" fill="#4CAF50" rx="5" />
+                    <!-- Mắt -->
+                    <path d="M70 80 L90 100 L50 100 Z" fill="#2E004F" />
+                    <path d="M130 80 L150 100 L110 100 Z" fill="#2E004F" />
+                    <!-- Mũi -->
+                    <path d="M100 110 L110 130 L90 130 Z" fill="#2E004F" />
+                    <!-- Miệng cười -->
+                    <path d="M60 140 Q100 170 140 140 L130 140 Q100 160 70 140 Z" fill="#2E004F" />
+                    <!-- Ma nhỏ bay bên cạnh -->
+                    <g class="animate-[bounce_2s_infinite]">
+                         <path d="M160 60 Q160 40 180 40 Q200 40 200 60 L200 90 Q180 80 160 90 Z" fill="white" opacity="0.8" />
+                         <circle cx="175" cy="55" r="2" fill="black" />
+                         <circle cx="185" cy="55" r="2" fill="black" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- NEW SECTION: Gemini AI Ghost Story -->
+    <section id="story" class="py-20 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="bg-gray-900/80 backdrop-blur-sm border border-pumpkin/30 rounded-3xl p-8 md:p-12 shadow-[0_0_30px_rgba(255,117,24,0.3)]">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl font-horror text-slime mb-2">Góc Kể Chuyện Ma ✨</h2>
+                    <p class="text-gray-400">Nhập một chủ đề, và hồn ma AI sẽ kể cho bạn nghe một câu chuyện...</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 mb-6 justify-center">
+                    <input type="text" id="storyTopic" placeholder="Ví dụ: ngôi nhà hoang, con mèo đen..." class="w-full md:w-1/2 bg-black/60 border border-purple-500 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-pumpkin focus:ring-1 focus:ring-pumpkin transition">
+                    <button onclick="generateGhostStory()" class="bg-purple-700 hover:bg-purple-600 text-white font-bold py-3 px-8 rounded-lg transition shadow-lg flex items-center justify-center gap-2">
+                        <span id="storyBtnText">Kể Chuyện</span>
+                        <div id="storyLoader" class="loader hidden border-white border-t-transparent w-5 h-5"></div>
+                    </button>
+                </div>
+
+                <div id="storyOutput" class="hidden bg-black/40 p-6 rounded-xl border border-gray-700 min-h-[100px] text-gray-200 leading-relaxed font-sans">
+                    <!-- Story content will go here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sự kiện -->
+    <section id="events" class="py-20 bg-night/80 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <i class="fa-solid fa-spider text-4xl text-gray-500 mb-4 animate-pulse"></i>
+                <h2 class="text-5xl font-horror text-pumpkin text-shadow-horror">Hoạt Động Rùng Rợn</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 card-hover transition duration-300 group">
+                    <div class="h-48 bg-gray-800 rounded-lg mb-4 overflow-hidden relative">
+                         <div class="absolute inset-0 flex items-center justify-center text-6xl">🧛</div>
+                         <div class="absolute inset-0 bg-black/50 group-hover:bg-transparent transition"></div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-pumpkin">Hóa Trang Vampire</h3>
+                    <p class="text-gray-400">Cuộc thi hóa trang thành ma cà rồng ấn tượng nhất với giải thưởng hấp dẫn.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 card-hover transition duration-300 group">
+                    <div class="h-48 bg-gray-800 rounded-lg mb-4 overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl">🎃</div>
+                        <div class="absolute inset-0 bg-black/50 group-hover:bg-transparent transition"></div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-pumpkin">Khắc Bí Ngô</h3>
+                    <p class="text-gray-400">Thể hiện sự khéo léo của bạn để tạo ra chiếc đèn lồng Jack-o'-lantern đáng sợ nhất.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 card-hover transition duration-300 group">
+                    <div class="h-48 bg-gray-800 rounded-lg mb-4 overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl">👻</div>
+                        <div class="absolute inset-0 bg-black/50 group-hover:bg-transparent transition"></div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-pumpkin">Nhà Ma Ám</h3>
+                    <p class="text-gray-400">Thử thách lòng dũng cảm khi bước vào căn nhà hoang với những bí mật chưa được bật mí.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Đăng Ký (Giao diện tối) -->
+    <section id="contact" class="py-20 relative z-10">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="bg-purple-900/20 backdrop-blur-md border border-purple-500/30 rounded-3xl p-8 md:p-12 shadow-[0_0_50px_rgba(46,0,79,0.5)]">
+                <h2 class="text-4xl font-horror text-center text-white mb-8">Tham Gia Nếu Bạn Dám</h2>
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="text" placeholder="Tên Ma Quái Của Bạn" class="w-full bg-black/50 border border-purple-500/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-pumpkin focus:ring-1 focus:ring-pumpkin transition">
+                        <input type="email" placeholder="Email (Để Gửi Bùa Chú)" class="w-full bg-black/50 border border-purple-500/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-pumpkin focus:ring-1 focus:ring-pumpkin transition">
+                    </div>
+                    
+                    <div class="relative">
+                        <textarea id="messageInput" rows="4" placeholder="Lời nhắn cuối cùng..." class="w-full bg-black/50 border border-purple-500/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-pumpkin focus:ring-1 focus:ring-pumpkin transition"></textarea>
+                        
+                        <!-- AI Button for Message -->
+                        <button type="button" onclick="makeMessageSpooky()" class="absolute bottom-4 right-4 bg-gray-800 hover:bg-gray-700 text-slime text-xs font-bold py-1 px-3 rounded border border-slime/50 shadow flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Hóa Phép ✨
+                            <div id="msgLoader" class="loader hidden border-slime border-t-transparent w-3 h-3"></div>
+                        </button>
+                    </div>
+
+                    <button type="button" onclick="scareEffect()" class="w-full bg-gradient-to-r from-purple-700 to-pink-700 hover:from-pumpkin hover:to-red-600 text-white font-bold py-4 rounded-lg shadow-lg transition duration-300 uppercase tracking-wider">
+                        Gửi Đi <i class="fa-solid fa-skull ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-center py-8 border-t border-gray-900 relative z-10">
+        <p class="font-horror text-2xl text-gray-500">Happy Halloween 2025</p>
+        <p class="text-sm text-gray-700 mt-2">Thiết kế bởi Phù Thủy Code</p>
+        <div class="mt-4 space-x-4 text-2xl">
+            <a href="#" class="text-gray-600 hover:text-pumpkin"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="text-gray-600 hover:text-purple-500"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" class="text-gray-600 hover:text-red-500"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <!-- Hiệu ứng dơi bay (Hidden by default) -->
+    <div id="bats-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-50 hidden">
+        <!-- JS sẽ tạo dơi ở đây -->
+    </div>
+
+    <script>
+        // --- Gemini API Configuration ---
+        const apiKey = ""; // API key will be injected by the environment
+        const apiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+        async function callGemini(prompt) {
+            try {
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+                const data = await response.json();
+                if (data.error) throw new Error(data.error.message);
+                return data.candidates[0].content.parts[0].text;
+            } catch (error) {
+                console.error("Gemini Error:", error);
+                return "Hồn ma đang bận... hãy thử lại sau!";
+            }
+        }
+
+        // --- Feature 1: Make Message Spooky ---
+        async function makeMessageSpooky() {
+            const input = document.getElementById('messageInput');
+            const originalText = input.value.trim();
+            const loader = document.getElementById('msgLoader');
+            
+            if (!originalText) {
+                alert("Hãy viết gì đó trước khi hóa phép!");
+                return;
+            }
+
+            // UI Loading state
+            loader.classList.remove('hidden');
+            
+            const prompt = `Rewrite the following message to sound like a spooky, dramatic ghost or vampire in Vietnamese. Keep the core meaning but add horror flair. Message: "${originalText}"`;
+            
+            const spookyText = await callGemini(prompt);
+            
+            input.value = spookyText;
+            loader.classList.add('hidden');
+        }
+
+        // --- Feature 2: Ghost Story Generator ---
+        async function generateGhostStory() {
+            const topic = document.getElementById('storyTopic').value.trim();
+            const output = document.getElementById('storyOutput');
+            const btnText = document.getElementById('storyBtnText');
+            const loader = document.getElementById('storyLoader');
+
+            if (!topic) {
+                alert("Bạn muốn nghe chuyện về cái gì? Hãy nhập chủ đề!");
+                return;
+            }
+
+            // UI Loading
+            output.classList.remove('hidden');
+            output.innerHTML = '<p class="animate-pulse text-gray-500 italic">Đang triệu hồi các linh hồn để kể chuyện...</p>';
+            btnText.innerText = "Đang Viết...";
+            loader.classList.remove('hidden');
+
+            const prompt = `Write a very short (max 100 words), scary ghost story in Vietnamese about: "${topic}". Make it atmospheric and spooky for Halloween.`;
+            
+            const story = await callGemini(prompt);
+            
+            // Render Markdown
+            output.innerHTML = marked.parse(story);
+            
+            btnText.innerText = "Kể Chuyện";
+            loader.classList.add('hidden');
+        }
+
+        // --- Existing Features ---
+
+        // 1. Chức năng Tắt/Bật Đèn
+        let isLightsOn = true;
+        function toggleLights() {
+            const body = document.body;
+            const btnText = document.getElementById('btnText');
+            
+            if (isLightsOn) {
+                // Tắt đèn (Chế độ siêu tối)
+                body.style.filter = "brightness(0.1) contrast(1.2)";
+                btnText.innerText = "Bật Đèn";
+            } else {
+                // Bật đèn
+                body.style.filter = "brightness(1) contrast(1)";
+                btnText.innerText = "Tắt Đèn";
+            }
+            isLightsOn = !isLightsOn;
+        }
+
+        // 2. Hiệu ứng hù dọa khi gửi form
+        function scareEffect() {
+            const btn = document.querySelector('button[onclick="scareEffect()"]');
+            btn.innerHTML = "ĐANG GỬI...";
+            btn.classList.add('animate-shake'); // Rung lắc nút
+            
+            // Tạo dơi bay
+            createBats();
+
+            setTimeout(() => {
+                alert("👻 BÙUUU! Bạn đã bị ghi danh vào danh sách đen!");
+                btn.innerHTML = 'Gửi Đi <i class="fa-solid fa-skull ml-2"></i>';
+                btn.classList.remove('animate-shake');
+            }, 2000);
+        }
+
+        // 3. Tạo hiệu ứng dơi bay qua màn hình
+        function createBats() {
+            const container = document.getElementById('bats-container');
+            container.classList.remove('hidden');
+            container.innerHTML = ''; // Xóa dơi cũ
+
+            for (let i = 0; i < 10; i++) {
+                const bat = document.createElement('div');
+                bat.innerHTML = '🦇';
+                bat.style.position = 'absolute';
+                bat.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                bat.style.left = '-50px';
+                bat.style.top = Math.random() * window.innerHeight + 'px';
+                bat.style.transition = `all ${Math.random() * 2 + 1}s linear`;
+                
+                container.appendChild(bat);
+
+                // Kích hoạt bay sau 1 khoảng nhỏ
+                setTimeout(() => {
+                    bat.style.transform = `translate(${window.innerWidth + 100}px, ${Math.random() * 200 - 100}px)`;
+                }, 50);
+            }
+
+            // Ẩn container sau khi bay xong
+            setTimeout(() => {
+                container.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
